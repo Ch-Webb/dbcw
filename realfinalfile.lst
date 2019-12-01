@@ -1,0 +1,145 @@
+SQL> select StockNo, Description, Quantity
+  2  from Stocks
+  3  where Quantity > 20
+  4  and StoreCode = 'CENT'
+  5  order by Quantity DESC;
+
+   STOCKNO DESCRIPTION                QUANTITY                                                                                                                  
+---------- ------------------------ ----------                                                                                                                  
+       107 Drawing pins                     37                                                                                                                  
+       121 Tipp-ex bottles                  35                                                                                                                  
+       103 Photocopying paper               30                                                                                                                  
+       115 12 inch rulers                   23                                                                                                                  
+       113 HB pencils                       22                                                                                                                  
+       109 Window envelopes                 22                                                                                                                  
+       106 Sellotape                        21                                                                                                                  
+
+7 rows selected.
+
+SQL> select *
+  2  from Suppliers
+  3  where Postcode like '%NP%'
+  4  or Town = 'London';
+
+SUPP SUPPNAME                       STREET                   TOWN             COUNTY           POSTCODE   TELNO            FAXNO                                
+---- ------------------------------ ------------------------ ---------------- ---------------- ---------- ---------------- ----------------                     
+S5   Legal Services Ltd.            Westway Road             London                            N8  8PA    081 333 1246     081 333 5490                         
+S3   Fastorder Stationers           Riverside View           Newport          Gwent            NP1  7XJ   0633 89898       0633 89899                           
+S6   Business Systems Ltd.          155 Stradleigh Place     London                            E10 6LL    081 535 3535     081 535 3355                         
+
+SQL> select s1.StoreCode, count(distinct s1.StockNo)
+  2  from Stocks s1, Stocks s2
+  3  having avg(s1.price) > avg(s2.price)
+  4  group by s1.StoreCode;
+
+STOREC COUNT(DISTINCTS1.STOCKNO)                                                                                                                                
+------ -------------------------                                                                                                                                
+TYP                            5                                                                                                                                
+IT                             4                                                                                                                                
+LEG                            6                                                                                                                                
+
+SQL> select town
+  2  from Suppliers
+  3  having count(distinct SuppName) > 1
+  4  group by Town;
+
+TOWN                                                                                                                                                            
+----------------                                                                                                                                                
+London                                                                                                                                                          
+
+SQL> select Stocks.StockNo, Description
+  2  case when QTYORD is null then 'no orders' else to_char(QTYORD) end as "orders"
+  3  from Stocks, OrderItems
+  4  where Stocks.StockNo = OrderItems.StockNo(+);
+case when QTYORD is null then 'no orders' else to_char(QTYORD) end as "orders"
+     *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select Stocks.StockNo, Description,
+  2  case when qtyord is null then 'no orders' else to_char(qtyord) end as 'orders'
+  3  from Stocks, OrderItems
+  4  where Stocks.StockNo = OrderItems.StockNo(+);
+case when qtyord is null then 'no orders' else to_char(qtyord) end as 'orders'
+                                                                      *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select stocks.stockno, description, case when qtyord is null then 'No Orders' else to_char(qtyord) end as "Orders"
+  2  from stocks, orderitems
+  3  where stocks.stockno = orderitems.stockno(+);
+
+   STOCKNO DESCRIPTION              Orders                                                                                                                      
+---------- ------------------------ ----------------------------------------                                                                                    
+       102 A4 headed paper          No Orders                                                                                                                   
+       103 Photocopying paper       No Orders                                                                                                                   
+       104 Coloured paper           No Orders                                                                                                                   
+       105 Sticky labels            No Orders                                                                                                                   
+       106 Sellotape                10                                                                                                                          
+       107 Drawing pins             No Orders                                                                                                                   
+       108 Staples                  10                                                                                                                          
+       109 Window envelopes         No Orders                                                                                                                   
+       110 Large envelopes          No Orders                                                                                                                   
+       111 Black ballpoints         10                                                                                                                          
+       112 Coloured pens            No Orders                                                                                                                   
+
+   STOCKNO DESCRIPTION              Orders                                                                                                                      
+---------- ------------------------ ----------------------------------------                                                                                    
+       113 HB pencils               No Orders                                                                                                                   
+       114 Fluorescent markers      No Orders                                                                                                                   
+       115 12 inch rulers           No Orders                                                                                                                   
+       116 3.5 in. floppy disks     10                                                                                                                          
+       117 5.25 in. floppy disks    10                                                                                                                          
+       118 Toner cartridges         No Orders                                                                                                                   
+       119 FX-100 printer ribbon    No Orders                                                                                                                   
+       121 Tipp-ex bottles          No Orders                                                                                                                   
+       122 Typewriter ribbons       No Orders                                                                                                                   
+       123 Audio cassettes          No Orders                                                                                                                   
+       124 Anti-static wipes        No Orders                                                                                                                   
+
+   STOCKNO DESCRIPTION              Orders                                                                                                                      
+---------- ------------------------ ----------------------------------------                                                                                    
+       126 Sealing wax              No Orders                                                                                                                   
+       127 Red binding ribbon       No Orders                                                                                                                   
+       128 A3 cream notary paper    No Orders                                                                                                                   
+       129 Coloured ink             No Orders                                                                                                                   
+       130 8 x 1 inch wood screws   No Orders                                                                                                                   
+       131 10 x 1 inch wood screws  No Orders                                                                                                                   
+       132 13 amp electrical wire   No Orders                                                                                                                   
+       134 Electrical solder        No Orders                                                                                                                   
+       135 White spirit             No Orders                                                                                                                   
+       137 Masking tape             No Orders                                                                                                                   
+       138 Door hinges              No Orders                                                                                                                   
+
+   STOCKNO DESCRIPTION              Orders                                                                                                                      
+---------- ------------------------ ----------------------------------------                                                                                    
+       139 Angle brackets           No Orders                                                                                                                   
+
+34 rows selected.
+
+SQL> select stats_mode(StoreCode)
+  2  from Stocks;
+
+STATS_                                                                                                                                                          
+------                                                                                                                                                          
+CENT                                                                                                                                                            
+
+SQL> column curdate new_value report_date
+SQL> select to_char(sysdate, 'dd-Mon-yyyy') curdate
+  2  from dual;
+
+CURDATE                                                                                                                                                         
+-----------                                                                                                                                                     
+01-Dec-2019                                                                                                                                                     
+
+SQL> accept Report_Officer char promprt 'Enter your name: ';
+SP2-0003: Ill-formed ACCEPT command starting as promprt 'Enter your name: '
+SQL> accept Report_Officer char prompt 'Enter your name: ';
+Enter your name: Charlie
+SQL> col StoreCode format A8 heading 'Store|Code';
+SQL> col Description format A8 heading 'Item|Description';
+SQL> col Price format ^$999999.99 heading 'Price';
+SP2-0246: Illegal FORMAT string "^$999999.99"
+SQL> spool off;
