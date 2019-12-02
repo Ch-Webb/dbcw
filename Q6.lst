@@ -1,0 +1,77 @@
+SQL> select Stocks.StockNo, Description, decode(count(OrderItems.OrderNo), 0, 'No Orders', count(OrderItems.OrderItems)) as 'Number Of Orders'
+  2  from Stocks, OrderItems
+  3  
+SQL> select Stocks.StockNo, Description, decode(count(OrderItems.OrderNo), 0, 'No Orders', count(OrderItems.OrderItems)) as 'Number Of Orders'
+  2  from Stocks, OrderItems
+  3  where Stocks.StockNo = OrderItems.StockNo(+)
+  4  group by Stocks.StockNo, Stocks.Description;
+select Stocks.StockNo, Description, decode(count(OrderItems.OrderNo), 0, 'No Orders', count(OrderItems.OrderItems)) as 'Number Of Orders'
+                                                                                                                       *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select Stocks.StockNo, Description, decode(count(OrderItems.OrderNo), 0, 'No Orders', count(OrderItems.OrderItems)) as "Number of Orders"
+  2  from Stocks, OrderItems
+  3  where Stocks.StockNo = OrderItems.StockNo(+)
+  4  group by Stocks.StockNo, Stocks.Description;
+select Stocks.StockNo, Description, decode(count(OrderItems.OrderNo), 0, 'No Orders', count(OrderItems.OrderItems)) as "Number of Orders"
+                                                                                            *
+ERROR at line 1:
+ORA-00904: "ORDERITEMS"."ORDERITEMS": invalid identifier 
+
+
+SQL> select Stocks.StockNo, Description, decode(count(OrderItems.OrderNo), 0, 'No Orders', count(OrderItems.OrderNo)) as "Number of Orders"
+  2  from Stocks, OrderItems
+  3  where Stocks.StockNo = OrderItems.StockNo(+)
+  4  group by Stocks.StockNo, Stocks.Description;
+
+   STOCKNO DESCRIPTION              Number of Orders                            
+---------- ------------------------ ----------------------------------------    
+       110 Large envelopes          No Orders                                   
+       116 3.5 in. floppy disks     1                                           
+       118 Toner cartridges         No Orders                                   
+       106 Sellotape                1                                           
+       107 Drawing pins             No Orders                                   
+       111 Black ballpoints         1                                           
+       123 Audio cassettes          No Orders                                   
+       130 8 x 1 inch wood screws   No Orders                                   
+       134 Electrical solder        No Orders                                   
+       109 Window envelopes         No Orders                                   
+       126 Sealing wax              No Orders                                   
+
+   STOCKNO DESCRIPTION              Number of Orders                            
+---------- ------------------------ ----------------------------------------    
+       131 10 x 1 inch wood screws  No Orders                                   
+       135 White spirit             No Orders                                   
+       104 Coloured paper           No Orders                                   
+       132 13 amp electrical wire   No Orders                                   
+       139 Angle brackets           No Orders                                   
+       119 FX-100 printer ribbon    No Orders                                   
+       122 Typewriter ribbons       No Orders                                   
+       102 A4 headed paper          No Orders                                   
+       114 Fluorescent markers      No Orders                                   
+       117 5.25 in. floppy disks    1                                           
+       124 Anti-static wipes        No Orders                                   
+
+   STOCKNO DESCRIPTION              Number of Orders                            
+---------- ------------------------ ----------------------------------------    
+       127 Red binding ribbon       No Orders                                   
+       128 A3 cream notary paper    No Orders                                   
+       137 Masking tape             No Orders                                   
+       138 Door hinges              No Orders                                   
+       103 Photocopying paper       No Orders                                   
+       129 Coloured ink             No Orders                                   
+       105 Sticky labels            No Orders                                   
+       108 Staples                  1                                           
+       112 Coloured pens            No Orders                                   
+       113 HB pencils               No Orders                                   
+       115 12 inch rulers           No Orders                                   
+
+   STOCKNO DESCRIPTION              Number of Orders                            
+---------- ------------------------ ----------------------------------------    
+       121 Tipp-ex bottles          No Orders                                   
+
+34 rows selected.
+
+SQL> spool off;
