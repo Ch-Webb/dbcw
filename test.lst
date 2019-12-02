@@ -1,0 +1,8 @@
+SQL> select * from orders;
+
+   ORDERNO SUPP ORDERDATE AUTHORITY                   TOTCOST                   
+---------- ---- --------- ------------------------ ----------                   
+         1 S4   28-NOV-19 C1823045                       32.9                   
+         2 S2   28-NOV-19 C1823045                      242.3                   
+
+SQL> spool off;

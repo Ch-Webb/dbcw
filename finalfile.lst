@@ -1,0 +1,38 @@
+SQL> select StockNo, Description, Quantity
+  2  from Stocks
+  3  where Quantity > 20
+  4  and StoreCode = 'CENT'
+  5  order by Quantity DESC;
+
+   STOCKNO DESCRIPTION                QUANTITY                                  
+---------- ------------------------ ----------                                  
+       107 Drawing pins                     37                                  
+       121 Tipp-ex bottles                  35                                  
+       103 Photocopying paper               30                                  
+       115 12 inch rulers                   23                                  
+       113 HB pencils                       22                                  
+       109 Window envelopes                 22                                  
+       106 Sellotape                        21                                  
+
+7 rows selected.
+
+SQL> select *
+  2  from Suppliers
+  3  where Postcode like '%NP%'
+  4  or Town = 'London';
+
+SUPP SUPPNAME                       STREET                   TOWN               
+---- ------------------------------ ------------------------ ----------------   
+COUNTY           POSTCODE   TELNO            FAXNO                              
+---------------- ---------- ---------------- ----------------                   
+S5   Legal Services Ltd.            Westway Road             London             
+                 N8  8PA    081 333 1246     081 333 5490                       
+                                                                                
+S3   Fastorder Stationers           Riverside View           Newport            
+Gwent            NP1  7XJ   0633 89898       0633 89899                         
+                                                                                
+S6   Business Systems Ltd.          155 Stradleigh Place     London             
+                 E10 6LL    081 535 3535     081 535 3355                       
+                                                                                
+
+SQL> spool off;
